@@ -43,6 +43,8 @@ GEM
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.2)
     erubis (2.7.0)
+    faker (1.1.2)
+      i18n (~> 0.5)
     hike (1.2.3)
     i18n (0.6.4)
     kgio (2.8.0)
@@ -106,6 +108,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers!
   debugger
+  faker
   pg
   rack-timeout
   rails (= 4.0.0)

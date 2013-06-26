@@ -3,14 +3,14 @@ class UsersController < ApplicationController
     render json: User.all
   end
 
-  def show
-    render json: User.find(params[:id])
+  def create
+    user = User.new(params[:user])
+    user.save
+    render json: user
   end
 
-  def destroy
-    user = User.find(params[:id])
-    user.destroy
-    render json: user
+  def show
+    render json: User.find(params[:id])
   end
 
   def update
@@ -19,9 +19,9 @@ class UsersController < ApplicationController
     render json: user
   end
 
-  def create
-    user = User.new(params[:user])
-    user.save
+  def destroy
+    user = User.find(params[:id])
+    user.destroy
     render json: user
   end
 end

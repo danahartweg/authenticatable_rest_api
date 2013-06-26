@@ -11,7 +11,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130626132620) do
+ActiveRecord::Schema.define(version: 20130626191647) do
+
+  create_table "collections", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "domain_id"
+  end
+
+  create_table "domains", force: true do |t|
+    t.string   "display_name"
+    t.string   "suffix"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "manufacturers", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "web_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "swatches", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "thumb_link"
+    t.string   "img_link"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "collection_id"
+    t.integer  "manufacturer_id"
+  end
 
   create_table "users", force: true do |t|
     t.string   "first_name"
