@@ -1,9 +1,7 @@
 class SwatchesController < ApplicationController
   def index
-    if params[:ids]
-      Swatch.find(params['ids'])
-    elsif params['collection']
-      Collection.find(params['collection']).swatches
+    if params['collection']
+      render json: Collection.find(params['collection']).swatches
     else
       render json: Swatch.all
     end
