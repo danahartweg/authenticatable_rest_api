@@ -7,6 +7,7 @@ gem 'rails-api'
 gem 'unicorn'
 gem 'rack-timeout'
 gem 'active_model_serializers', :github => 'rails-api/active_model_serializers'
+gem 'newrelic_rpm'
 
 gem 'faker'
 
