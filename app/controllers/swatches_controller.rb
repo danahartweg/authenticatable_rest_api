@@ -1,4 +1,8 @@
 class SwatchesController < ApplicationController
+
+  prepend_before_filter :get_api_key
+  before_filter :authenticate_user!
+
   def index
     if params['collection']
       render json: Collection.find(params['collection']).swatches
@@ -28,4 +32,5 @@ class SwatchesController < ApplicationController
     swatch.destroy
     render json: swatch
   end
+
 end

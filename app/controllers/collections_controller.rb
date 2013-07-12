@@ -1,4 +1,8 @@
 class CollectionsController < ApplicationController
+
+  prepend_before_filter :get_api_key
+  before_filter :authenticate_user!
+
   def index
     render json: Collection.all
   end
