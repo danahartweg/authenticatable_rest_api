@@ -3,8 +3,8 @@ namespace :db do
 	desc "Fill database with sample data"
 	task populate: :environment do
 
-		6.times do |n|
-			puts "[DEBUG] creating collection #{n+1} of 6"
+		10.times do |n|
+			puts "[DEBUG] creating collection #{n+1} of 10"
 
 			name = %w(Natural Manmade Synthetic Unknown Test Sample NCSU).sample
 			description = "Description for collection #{n+1}"
@@ -14,8 +14,8 @@ namespace :db do
 		end
 
 		Collection.all.each do |collection|
-			32.times do |n|
-				puts "[DEBUG] creating swatch #{n+1} of 32 for collection: #{collection.id}"
+			64.times do |n|
+				puts "[DEBUG] creating swatch #{n+1} of 64 for collection: #{collection.id}"
 
 				name = %w(Cotton Wool Hemp Jute Ramie Kevlar Rayon Silk).sample
 				description = %w(new secondary testing best awesome supercalifragilistic).sample

@@ -11,13 +11,9 @@ gem 'rack-timeout'
 gem 'active_model_serializers', :github => 'rails-api/active_model_serializers'
 gem 'newrelic_rpm'
 
-gem 'omniauth-google-oauth2'
+# gem 'omniauth-google-oauth2'
 
 gem 'faker'
-
-# remove when api login page has been removed
-# gem 'jquery-rails', '~> 2.1'
-# gem 'simple_form'
 
 group :development, :test do
 	gem 'debugger'
