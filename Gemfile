@@ -6,11 +6,11 @@ gem 'rails', '4.0.0'
 gem 'rails-api'
 gem 'unicorn'
 gem 'pg'
+gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'rack-timeout'
 gem 'active_model_serializers', :github => 'rails-api/active_model_serializers'
 gem 'newrelic_rpm'
 
-gem 'devise', '3.0.0.rc'
 gem 'omniauth-google-oauth2'
 
 gem 'faker'

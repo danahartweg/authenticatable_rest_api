@@ -1,7 +1,10 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "#session" do
+    dan = users(:dan)
+    api_key = dan.session_api_key
+    assert api_key.access_token =~ /\S{32}/
+    assert api_key.user_id == dan.id
+  end
 end

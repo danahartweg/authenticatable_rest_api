@@ -34,7 +34,7 @@ GEM
       tzinfo (~> 0.3.37)
     arel (4.0.0)
     atomic (1.1.10)
-    bcrypt-ruby (3.1.1)
+    bcrypt-ruby (3.0.1)
     builder (3.1.4)
     columnize (0.3.6)
     debugger (1.6.1)
@@ -43,11 +43,6 @@ GEM
       debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.3)
-    devise (3.0.0.rc)
-      bcrypt-ruby (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 3.2.6, < 5)
-      warden (~> 1.2.1)
     erubis (2.7.0)
     faker (1.1.2)
       i18n (~> 0.5)
@@ -83,7 +78,6 @@ GEM
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
-    orm_adapter (0.4.0)
     pg (0.15.1)
     polyglot (0.3.3)
     rack (1.5.2)
@@ -130,16 +124,14 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
-    warden (1.2.1)
-      rack (>= 1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   active_model_serializers!
+  bcrypt-ruby (~> 3.0.0)
   debugger
-  devise (= 3.0.0.rc)
   faker
   newrelic_rpm
   omniauth-google-oauth2
