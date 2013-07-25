@@ -1,5 +1,15 @@
 class ApplicationController < ActionController::API
 
+	before_filter :cors_set_access_control_headers
+
+	# CORS preflight headers
+  def cors_preflight
+  	# Change origin to production domains
+  	headers['Access-Control-Allow-Origin'] = 'http://localhost:8888'
+    headers['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = 'Accept, Authorization, Content-Type, Origin, X-ACCESS-TOKEN'
+  end
+
 	protected
 
 	# Returns 401 if the user isn't authorized
@@ -32,50 +42,13 @@ class ApplicationController < ActionController::API
 		end
 	end
 
-
-
-
-
-
-
-
-
-
-		# CORS headers
-		# prepend_before_filter :get_api_key
-  # 	# do not use CSRF for CORS options
-	 #  skip_before_filter :verify_authenticity_token, :only => [:options]
-	 #  before_filter :cors_set_access_control_headers
-
-		# def cors_set_access_control_headers
-		# 	puts request.headers["HTTP_ORIGIN"]
-
-		# 	# remove_keys = %w(X-Frame-Options X-XSS-Protection X-Content-Type-Options X-UA-Compatible)
-		# 	# headers.delete_if{|key| remove_keys.include? key}
-
-	 #    headers['Access-Control-Allow-Origin'] = 'http://localhost:8888'
-	 #    headers['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD'
-	 #    headers['Access-Control-Allow-Headers'] = '*'
-	 #    headers['Access-Control-Expose-Headers'] = 'ETag'
-	 #    headers['Access-Control-Allow-Credentials'] = 'true'
-	 #    headers['Access-Control-Max-Age'] = '0'
-	 #  end
-
-	 #  def cors_preflight
-	 #  	puts "setting option headers"
-	 #  	headers['Access-Control-Allow-Origin'] = '*'
-	 #    headers['Access-Control-Allow-Methods'] = 'GET, POST'
-	 #    headers['Access-Control-Allow-Headers'] = 'Accept, Authorization, Content-Type, Origin'
-	 #    headers['Access-Control-Allow-Credentials'] = 'true'
-	 #    headers['Access-Control-Max-Age'] = '0'
-	 #    # render :text => '', :content_type => 'text/plain'
-	 #  end
-
-	  # # Grabs the API key from either the header or the url
-	  # def get_api_key
-	  #   if api_key = params[:api_key].blank? && request.headers["X-API-KEY"]
-	  #     params[:api_key] = api_key
-	  #   end
-	  # end
+	# CORS headers
+	def cors_set_access_control_headers
+		# Change origin to production domains
+    headers['Access-Control-Allow-Origin'] = 'http://localhost:8888'
+    headers['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+    headers['Access-Control-Allow-Headers'] = '*'
+    headers['Access-Control-Max-Age'] = '172800'
+  end
 
 end

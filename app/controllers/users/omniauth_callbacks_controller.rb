@@ -1,3 +1,5 @@
+# Unused controller when Omniauth was being integrated with Devise, keeping it for the time being
+
 # class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 # 	def google_oauth2

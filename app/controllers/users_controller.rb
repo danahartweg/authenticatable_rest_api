@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 
+  # Creating a user does not require you to be authenticated
   before_filter :ensure_authenticated_user, only: [:index, :show, :update]
 
   # Returns user list if authenticated
@@ -7,10 +8,12 @@ class UsersController < ApplicationController
     render json: User.all
   end
 
+  # Returns a specific user if authenticated
   def show
     render json: User.find(params[:id])
   end
 
+  # Create a new user, no authentication required
   def create
   	user = User.create(user_params)
 
@@ -21,6 +24,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # Update the logged in user profile
   def update
     user = User.find(params[:id])
 
