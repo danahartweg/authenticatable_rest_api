@@ -5,7 +5,10 @@ RestApi::Application.routes.draw do
 
 	# User information requests are sent to the api scoped route
   resources :users, except: [:index, :show]
+
+  # Routing api key creation and deletion
   post 'session' => 'session#create'
+  delete 'session' => 'session#destroy'
 
 	# Scope for api version one
   scope '/v1' do

@@ -5,6 +5,7 @@ class ApplicationController < ActionController::API
 	# CORS preflight headers
   def cors_preflight
   	# Change origin to production domains
+  	puts "CORS preflight"
   	headers['Access-Control-Allow-Origin'] = 'http://localhost:8888'
     headers['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
     headers['Access-Control-Allow-Headers'] = 'Accept, Authorization, Content-Type, Origin, X-ACCESS-TOKEN'

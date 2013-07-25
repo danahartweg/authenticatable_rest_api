@@ -23,7 +23,7 @@ class ApiKeyTest < ActiveSupport::TestCase
       dan = users(:dan)
       api_key = ApiKey.create(scope: 'api', user_id: dan.id)
 
-      assert api_key.expired_at == 30.days.from_now
+      assert api_key.expired_at == 2.days.from_now
     end
   end
 end

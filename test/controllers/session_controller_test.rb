@@ -25,4 +25,11 @@ class SessionControllerTest < ActionController::TestCase
     post 'create', { username_or_email: larry.email, password: 'huh' }
     assert response.status == 401
   end
+
+  test "destroy access token on logout request" do
+    dan = users(:dan)
+    api_key = dan.session_api_key
+    delete 'destroy', {}, { 'X-ACCESS-TOKEN' => "#{api_key.access_token}" }
+    assert response.status == 200
+  end
 end
