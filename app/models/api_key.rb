@@ -1,16 +1,16 @@
 class ApiKey < ActiveRecord::Base
-  validates :scope, inclusion: { in: %w( session api ) }
+  validates :scope, inclusion: { in: %w( web iOS ) }
   before_create :generate_access_token, :set_expiry_date
   belongs_to :user
 
-  scope :session, -> { where(scope: 'session') }
-  scope :api,     -> { where(scope: 'api') }
+  scope :web, -> { where(scope: 'web') }
+  scope :iOS,     -> { where(scope: 'iOS') }
 
   def set_expiry_date
-    self.expires_at = if self.scope == 'api'
-                        2.days.from_now
+    self.expires_at = if self.scope == 'iOS'
+                        30.days.from_now
                       else
-                        4.hours.from_now
+                        1.day.from_now
                       end
   end
 

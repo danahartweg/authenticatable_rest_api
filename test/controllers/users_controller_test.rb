@@ -81,8 +81,8 @@ class UsersControllerTest < ActionController::TestCase
 
   test "#show, expired token" do
     dan = users(:dan)
-    expired_api_key = dan.api_keys.api.create
-    expired_api_key.update_attribute(:expires_at, 30.days.ago)
+    expired_api_key = dan.api_keys.iOS.create
+    expired_api_key.update_attribute(:expires_at, 60.days.ago)
 
     get 'show', { id: dan.id }, { 'X-ACCESS-TOKEN' => "#{expired_api_key.access_token}" }
     assert response.headers['X-ACCESS-TOKEN'] != expired_api_key.access_token

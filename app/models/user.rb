@@ -7,6 +7,6 @@ class User < ActiveRecord::Base
   validates :name, presence: true
 
   def find_api_key
-    api_keys.api.first_or_create
+    api_keys.web.first_or_create
   end
 end

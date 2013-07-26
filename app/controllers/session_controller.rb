@@ -14,7 +14,7 @@ class SessionController < ApplicationController
         api_key.last_access = Time.now
 
         if !api_key.access_token || api_key.is_expired
-          puts "no access or expired key, generating"
+          puts "non existant or expired key, generating"
           api_key.set_expiry_date
           api_key.generate_access_token
         end
