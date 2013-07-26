@@ -23,10 +23,21 @@ class UsersController < ApplicationController
   def update
     user = User.find(params[:id])
 
-    if user.update_attributes(user_params)
-      render json: user, status: 200
+    # require password to change account information
+    if user && user.authenticate(user_params[:password])
+
+      updatedParams = user_params
+
+      updatedParams[:password] = updatedParams[:new_password]
+      updatedParams.delete(:new_password)
+
+      if user.update_attributes(updatedParams)
+        render json: user, status: 200
+      else
+        render json: { errors: user.errors.messages }, status: 422
+      end
     else
-      render json: { errors: user.errors.messages }, status: 422
+      render json: { errors: user.errors.messages }, status: 401
     end
   end
 
@@ -34,6 +45,6 @@ class UsersController < ApplicationController
 
   # Strong Parameters (Rails 4)
   def user_params
-    params.require(:user).permit(:name, :username, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :username, :email, :password, :new_password, :password_confirmation)
   end
 end

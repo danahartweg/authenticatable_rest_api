@@ -30,16 +30,16 @@ class UsersControllerTest < ActionController::TestCase
     assert results['errors'].size == 3
   end
 
-  test "#update" do
+  test "#update, including password" do
     dan = users(:dan)
     api_key = dan.find_api_key
     put 'update', {
       id: dan.id,
       user: {
-        username: 'billy-new',
         name: 'New Billy',
         email: 'new-billy@example.com',
-        password: 'new_secret',
+        password: 'secret',
+        new_password: 'new_secret',
         password_confirmation: 'new_secret'
       }
     }, { 'X-ACCESS-TOKEN' => "#{api_key.access_token}" }
@@ -52,12 +52,25 @@ class UsersControllerTest < ActionController::TestCase
     put 'update', {
       id: dan.id,
       user: {
-        username: 'billy-new',
+        name: 'New Billy',
+        email: 'new-billy@example.com',
+        password: 'secret'
+      }
+    }, { 'X-ACCESS-TOKEN' => "#{api_key.access_token}" }
+    assert response.status == 200
+  end
+
+  test "#update, no password given" do
+    dan = users(:dan)
+    api_key = dan.find_api_key
+    put 'update', {
+      id: dan.id,
+      user: {
         name: 'New Billy',
         email: 'new-billy@example.com'
       }
     }, { 'X-ACCESS-TOKEN' => "#{api_key.access_token}" }
-    assert response.status == 200
+    assert response.status == 401
   end
 
   test "#show, valid token required" do
