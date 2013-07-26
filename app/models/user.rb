@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true
   validates :name, presence: true
 
-  def session_api_key
-    api_keys.active.session.first_or_create
+  def find_api_key
+    api_keys.api.first_or_create
   end
 end

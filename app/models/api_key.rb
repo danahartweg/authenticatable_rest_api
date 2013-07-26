@@ -5,15 +5,12 @@ class ApiKey < ActiveRecord::Base
 
   scope :session, -> { where(scope: 'session') }
   scope :api,     -> { where(scope: 'api') }
-  scope :active,  -> { where("expired_at >= ?", Time.now) }
-
-  private
 
   def set_expiry_date
-    self.expired_at = if self.scope == 'session'
-                        4.hours.from_now
-                      else
+    self.expires_at = if self.scope == 'api'
                         2.days.from_now
+                      else
+                        4.hours.from_now
                       end
   end
 
@@ -21,5 +18,9 @@ class ApiKey < ActiveRecord::Base
     begin
       self.access_token = SecureRandom.hex
     end while self.class.exists?(access_token: access_token)
+  end
+
+  def is_expired
+    return self.expires_at <= Time.now ? true : false
   end
 end

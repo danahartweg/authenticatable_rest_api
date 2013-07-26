@@ -20,8 +20,10 @@ ActiveRecord::Schema.define(version: 20130722203909) do
     t.integer  "user_id"
     t.string   "access_token"
     t.string   "scope"
-    t.datetime "expired_at"
+    t.datetime "expires_at"
     t.datetime "created_at"
+    t.datetime "last_access"
+    t.boolean  "is_locked",    default: false
   end
 
   add_index "api_keys", ["access_token"], name: "index_api_keys_on_access_token", unique: true, using: :btree

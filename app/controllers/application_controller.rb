@@ -20,9 +20,9 @@ class ApplicationController < ActionController::API
 
 	# Returns the user belonging to the access token
 	def current_user
-    api_key = ApiKey.active.where(access_token: token).first
+    api_key = ApiKey.where(access_token: token).first
 
-    if api_key
+    if api_key && !api_key.is_locked
       return api_key.user
     else
       return nil

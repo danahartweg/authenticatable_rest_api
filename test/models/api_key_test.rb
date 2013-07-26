@@ -9,21 +9,21 @@ class ApiKeyTest < ActiveSupport::TestCase
     assert api_key.access_token =~ /\S{32}/
   end
 
-  test "sets the expired_at properly for 'session' scope" do
+  test "sets the expires_at properly for 'session' scope" do
     Time.stub :now, Time.at(0) do
       dan = users(:dan)
       api_key = ApiKey.create(scope: 'session', user_id: dan.id)
 
-      assert api_key.expired_at == 4.hours.from_now
+      assert api_key.expires_at == 4.hours.from_now
     end
   end
 
-  test "sets the expired_at properly for 'api' scope" do
+  test "sets the expires_at properly for 'api' scope" do
     Time.stub :now, Time.at(0) do
       dan = users(:dan)
       api_key = ApiKey.create(scope: 'api', user_id: dan.id)
 
-      assert api_key.expired_at == 2.days.from_now
+      assert api_key.expires_at == 2.days.from_now
     end
   end
 end

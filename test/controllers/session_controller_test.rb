@@ -28,7 +28,7 @@ class SessionControllerTest < ActionController::TestCase
 
   test "destroy access token on logout request" do
     dan = users(:dan)
-    api_key = dan.session_api_key
+    api_key = dan.find_api_key
     delete 'destroy', {}, { 'X-ACCESS-TOKEN' => "#{api_key.access_token}" }
     assert response.status == 200
   end

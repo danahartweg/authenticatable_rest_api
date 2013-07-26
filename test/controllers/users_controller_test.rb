@@ -32,7 +32,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "#update" do
     dan = users(:dan)
-    api_key = dan.session_api_key
+    api_key = dan.find_api_key
     put 'update', {
       id: dan.id,
       user: {
@@ -48,7 +48,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "#update, no password change" do
     dan = users(:dan)
-    api_key = dan.session_api_key
+    api_key = dan.find_api_key
     put 'update', {
       id: dan.id,
       user: {
@@ -62,7 +62,7 @@ class UsersControllerTest < ActionController::TestCase
 
   test "#show, valid token required" do
     dan = users(:dan)
-    api_key = dan.session_api_key
+    api_key = dan.find_api_key
     get 'show', { id: dan.id }, { 'X-ACCESS-TOKEN' => "#{api_key.access_token}" }
     results = JSON.parse(response.body)
     assert results['user']['id'] == dan.id
@@ -74,30 +74,17 @@ class UsersControllerTest < ActionController::TestCase
     assert response.status == 401
   end
 
-  test "#index, no token" do
-    get 'index'
+  test "#show, no token" do
+    get 'show', { id: 2 }
     assert response.status == 401
   end
 
-  test "#index, invalid token" do
-    get 'index', {}, { 'X-ACCESS-TOKEN' => "12345" }
-    assert response.status == 401
-  end
-
-  test "#index, expired token" do
+  test "#show, expired token" do
     dan = users(:dan)
-    expired_api_key = dan.api_keys.session.create
-    expired_api_key.update_attribute(:expired_at, 30.days.ago)
-    assert !ApiKey.active.map(&:id).include?(expired_api_key.id)
-    get 'index', {}, { 'X-ACCESS-TOKEN' => "#{expired_api_key.access_token}" }
-    assert response.status == 401
-  end
+    expired_api_key = dan.api_keys.api.create
+    expired_api_key.update_attribute(:expires_at, 30.days.ago)
 
-  test "#index, valid token required" do
-    dan = users(:dan)
-    api_key = dan.session_api_key
-    get 'index', {}, { 'X-ACCESS-TOKEN' => "#{api_key.access_token}" }
-    results = JSON.parse(response.body)
-    assert results['users'].size == 2
+    get 'show', { id: dan.id }, { 'X-ACCESS-TOKEN' => "#{expired_api_key.access_token}" }
+    assert response.headers['X-ACCESS-TOKEN'] != expired_api_key.access_token
   end
 end

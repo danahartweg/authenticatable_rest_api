@@ -4,7 +4,7 @@ RestApi::Application.routes.draw do
 	match '*path' => 'application#cors_preflight', :via => :options
 
 	# User information requests are sent to the api scoped route
-  resources :users, except: [:index, :show]
+  resources :users, except: [:show]
 
   # Routing api key creation and deletion
   post 'session' => 'session#create'

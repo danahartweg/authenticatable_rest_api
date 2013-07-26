@@ -1,12 +1,7 @@
 class UsersController < ApplicationController
 
   # Creating a user does not require you to be authenticated
-  before_filter :ensure_authenticated_user, only: [:index, :show, :update]
-
-  # Returns user list if authenticated
-  def index
-    render json: User.all
-  end
+  before_filter :ensure_authenticated_user, :only => [:show, :update]
 
   # Returns a specific user if authenticated
   def show
@@ -20,7 +15,7 @@ class UsersController < ApplicationController
   	if user.new_record?
       render json: { errors: user.errors.messages }, status: 422
     else
-      render json: user.session_api_key, status: 201
+      render json: user.find_api_key, status: 201
     end
   end
 
