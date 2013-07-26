@@ -1,13 +1,13 @@
 # Authenticatable REST API
 
-This project was based heavily on the walkthrough written by Eric Berry that you can find [here](http://coderberry.me/blog/2013/07/08/authentication-with-emberjs-part-1/, "Ember.js authentication project"). The additions / changes I've made are addressed below.
+This project was based heavily on the walkthrough written by Eric Berry that you can find [here](http://coderberry.me/blog/2013/07/08/authentication-with-emberjs-part-1/ "Ember.js authentication project"). The additions / changes I've made are addressed below.
 
-Check out the [rails-api](https://github.com/rails-api/rails-api, "Rails-API GitHub project") gem as well. It serves as the base.
+Check out the [rails-api](https://github.com/rails-api/rails-api "Rails-API GitHub project") gem as well. It serves as the base.
 
 ## Additions and changes
 
 + Added CORS header support, as well as preflight options response
-+ Using [faker](https://github.com/stympy/faker, "Faker gem") for populating test data
++ Using [faker](https://github.com/stympy/faker "Faker gem") for populating test data
 + Modified api key scoping
 + Added a field to lock the api key, and for the last login time
 + Modified how api keys are created and expired. If the client sends an expired token whose key hasn't been locked, a new token will be generated. When the user logs out, the token is removed and the key is expired.
@@ -39,5 +39,5 @@ Push to Heroku and populate data (after initializing your git repository, and cr
 ## Todo
 
 + Omni-Auth support
-+ Re-write unit tests, perhaps with [Riot](https://github.com/thumblemonks/riot, "Riot unit testing gem") or similar (I'm up for suggestions on the best one)
++ Re-write unit tests, perhaps with [Riot](https://github.com/thumblemonks/riot "Riot unit testing gem") or similar (I'm up for suggestions on the best one)
 + Additional data relationships that are tied to the user
