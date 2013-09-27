@@ -9,7 +9,6 @@ gem 'pg'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'rack-timeout'
 gem 'active_model_serializers', :github => 'rails-api/active_model_serializers'
-gem 'newrelic_rpm'
 
 # gem 'omniauth-google-oauth2'
 
@@ -17,8 +16,11 @@ gem 'faker'
 
 group :development, :test do
 	gem 'debugger'
+	gem 'rspec-rails'
+	gem 'factory_girl_rails'
 end
 
 group :production do
 	# List gems here that are only for production on Heroku
+	gem 'newrelic_rpm'
 end
