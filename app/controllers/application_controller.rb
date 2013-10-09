@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
 	def current_user
     api_key = ApiKey.where(access_token: token).first
 
-    if api_key && !api_key.is_locked
+    if api_key && !api_key.is_expired && !api_key.is_locked
       return api_key.user
     else
       return nil
