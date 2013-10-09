@@ -14,6 +14,7 @@ Check out the [rails-api](https://github.com/rails-api/rails-api "Rails-API GitH
 + When editing the user profile, you must supply the current user's password, even if you have a valid token
 + There will only be one api key per user per scope, the token will change as the user logs out or the token api key expires.
 + Added some static public pages to describe the API
++ Replaced default unit tests with RSpec equivalents
 
 ## Configuration and deployment
 
@@ -39,5 +40,4 @@ Push to Heroku and populate data (after initializing your git repository, and cr
 ## Todo
 
 + Omni-Auth support
-+ Re-write unit tests, perhaps with [Riot](https://github.com/thumblemonks/riot "Riot unit testing gem") or similar (I'm up for suggestions on the best one)
 + Additional data relationships that are tied to the user
