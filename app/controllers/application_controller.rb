@@ -18,6 +18,11 @@ class ApplicationController < ActionController::API
     head :unauthorized unless current_user
   end
 
+  # Returns 401 if the user isn't an admin
+  def ensure_admin_user
+    head :unauthorized unless current_user.admin
+  end
+
 	# Returns the user belonging to the access token
 	def current_user
     api_key = ApiKey.where(access_token: token).first
