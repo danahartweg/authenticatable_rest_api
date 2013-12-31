@@ -22,7 +22,7 @@ describe UsersController do
 
 		# password supplied by factory is password
 		before :each do
-			@user = FactoryGirl.create(:user, name: "Tester", username: "testinguser")
+			@user = create(:user, name: "Tester", username: "testinguser")
 			@api_key = @user.find_api_key
 			@old_digest_passsword = @user.password_digest
 		end
@@ -61,7 +61,7 @@ describe UsersController do
 
 		# password supplied by factory is password
 		before :each do
-			@user = FactoryGirl.create(:user, name: "Tester", username: "testinguser")
+			@user = create(:user, name: "Tester", username: "testinguser")
 			@api_key = @user.find_api_key
 			@old_digest_passsword = @user.password_digest
 		end
