@@ -14,7 +14,7 @@ Check out the [rails-api](https://github.com/rails-api/rails-api "Rails-API GitH
 + When editing the user profile, you must supply the current user's password, even if you have a valid token
 + There will only be one api key per user per scope, the token will change as the user logs out or the token api key expires.
 + Added some static public pages to describe the API
-+ Replaced default unit tests with RSpec equivalents
++ Replaced default unit tests with RSpec equivalents, using the new RSpec syntax and
 
 ## Configuration and deployment
 
@@ -25,7 +25,7 @@ Run migrations for development and testing
     rake db:migrate; rake db:migrate RAILS_ENV=test
 
 Run tests, if you'd like
-    rake
+    rspec spec
 
 Populate the database with fake data
     rake db:populate
