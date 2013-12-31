@@ -12,6 +12,14 @@ RestApi::Application.routes.draw do
 
 	# Scope for api version one
   scope '/v1' do
-    resources :swatches, :collections, :manufacturers, :domains, :users
+    resources :swatches, :collections, :manufacturers, :domains
+
+    resources :users do
+      collection do
+        get :show
+        patch :update
+      end
+    end
+    
   end
 end

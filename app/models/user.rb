@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
   validates :username, presence: true, uniqueness: true
   validates :name, presence: true
 
-  def find_api_key
-    api_keys.web.first_or_create
+  # default to the web scope if none is provided
+  def find_api_key (targetScope = 'web')
+    self.api_keys.where(scope: targetScope).first_or_create
   end
 end

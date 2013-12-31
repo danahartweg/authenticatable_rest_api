@@ -12,12 +12,15 @@ gem 'active_model_serializers', :github => 'rails-api/active_model_serializers'
 
 # gem 'omniauth-google-oauth2'
 
-gem 'faker'
-
 group :development, :test do
 	gem 'debugger'
 	gem 'rspec-rails'
 	gem 'factory_girl_rails'
+end
+
+group :test do
+  gem 'faker'
+  gem 'shoulda-matchers'
 end
 
 group :production do

@@ -1,41 +1,47 @@
 require 'spec_helper'
 
 describe User do
-	it "has a valid factory" do
-		create(:user).should be_valid
-	end
+	let(:user) { create(:user) }
+	subject { create(:user) }
 
-	it "is invalid without a name" do
-		build(:user, name: nil).should_not be_valid
-	end
+	it { should be_valid }
+	it { should validate_presence_of :name }
+	it { should validate_presence_of :username }
+	it { should validate_presence_of :email }
+	it { should validate_uniqueness_of :username }
+	it { should validate_uniqueness_of :email }
 
-	it "is invalid without a username" do
-		build(:user, username: nil).should_not be_valid
-	end
+	it { should have_many :api_keys }
 
-	it "is invalid without an email address" do
-		build(:user, email: nil).should_not be_valid
-	end
+	describe "#find_api_key" do
+		context "requested from web" do
+			it "is an api key" do
+				expect(user.find_api_key('web')).to be_an ApiKey
+			end
 
-	it "is invalid without a password and password confirmation" do
-		build(:user, password: nil, password_confirmation:nil).should_not be_valid
-	end
+			it "has the web scope" do
+				expect(user.find_api_key('web').scope).to eq('web')
+			end
+		end
 
-	it "must have a unique username" do
-		create(:user, username: 'testusername')
-		build(:user, username: 'testusername').should_not be_valid
-	end
+		context "requested from iOS" do
+			it "is an api key" do
+				expect(user.find_api_key('iOS')).to be_an ApiKey
+			end
 
-	it "must have a unique email address" do
-		create(:user, email: 'test@example.com')
-		build(:user, email: 'test@example.com').should_not be_valid
-	end
+			it "has the iOS scope" do
+				expect(user.find_api_key('iOS').scope).to eq('iOS')
+			end
+		end
 
-	it "returns it's associated api key" do
-		user = create(:user)
-		api_key = user.find_api_key
+		context "non-matching request" do
+			it "is an api key" do
+				expect(user.find_api_key).to be_an ApiKey
+			end
 
-		api_key.access_token.should =~ /\S{32}/
-		api_key.user_id.should == user.id
+			it "has the web scope" do
+				expect(user.find_api_key.scope).to eq('web')
+			end
+		end
 	end
 end

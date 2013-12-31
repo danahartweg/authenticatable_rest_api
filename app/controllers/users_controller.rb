@@ -1,43 +1,46 @@
 class UsersController < ApplicationController
 
-  # Creating a user does not require you to be authenticated
-  before_filter :ensure_authenticated_user, :only => [:show, :update]
+  # creating a user doesn't require you to have an access token
+  skip_before_filter :ensure_authenticated_user, :only => [:create]
 
-  # Returns a specific user if authenticated
+  # Returns the authenticated user information
   def show
-    render json: User.find(params[:id])
+    render json: @currentUser
   end
 
   # Create a new user, no authentication required
   def create
-  	user = User.create(user_params)
-
-  	if user.new_record?
-      render json: { errors: user.errors.messages }, status: 422
+    # deny user creation if a user is logged in
+    if current_user
+      render json: { errors: "You are currently logged in." }, status: 401
     else
-      render json: user.find_api_key, status: 201
+      user = User.create(user_params)
+
+      if !user.new_record?
+        render json: user.find_api_key, status: 201
+      else
+        render json: { errors: user.errors.messages }, status: 422
+      end
     end
   end
 
-  # Update the logged in user profile
+  # Update the authenticated user profile
   def update
-    user = User.find(params[:id])
-
     # require password to change account information
-    if user && user.authenticate(user_params[:password])
+    if @currentUser && @currentUser.authenticate(user_params[:password])
 
       updatedParams = user_params
 
       updatedParams[:password] = updatedParams[:new_password]
       updatedParams.delete(:new_password)
 
-      if user.update_attributes(updatedParams)
-        render json: user, status: 200
+      if @currentUser.update_attributes(updatedParams)
+        head :no_content
       else
-        render json: { errors: user.errors.messages }, status: 422
+        render json: { errors: @currentUser.errors.messages }, status: 422
       end
     else
-      render json: { errors: user.errors.messages }, status: 401
+      render json: { errors: @currentUser.errors.messages }, status: 401
     end
   end
 

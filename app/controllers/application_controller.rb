@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::API
 
 	before_filter :cors_set_access_control_headers
+  before_filter :ensure_authenticated_user
 
 	# CORS preflight headers
   def cors_preflight
@@ -24,11 +25,11 @@ class ApplicationController < ActionController::API
   end
 
 	# Returns the user belonging to the access token
-	def current_user
+  def current_user
     api_key = ApiKey.where(access_token: token).first
 
-    if api_key && !api_key.is_expired && !api_key.is_locked
-      return api_key.user
+    if api_key && !api_key.is_expired? && !api_key.is_locked
+      @currentUser = api_key.user
     else
       return nil
     end

@@ -2,41 +2,73 @@ require 'spec_helper'
 
 describe SessionController do
 
-	describe "POST #create" do
-		it "authenticates with a username" do
-			user = create(:user)
-			post :create, { username_or_email: user.username, password: user.password }
-			results = JSON.parse(response.body)
+	let(:user) { create(:user) }
 
-			results['api_key']['access_token'].should =~ /\S{32}/
-			results['api_key']['user_id'].should == user.id
+	describe "with valid token", validToken: true do
+		before(:each) { authWithUser(user) }
+		let(:api_key) { user.find_api_key }
+
+		describe "POST #create" do
+			before(:each) { post :create }
+
+			it "has an error message" do
+				expect(json).to have_key('errors')
+			end
+
+			it { should respond_with 401 }			
 		end
 
-		it "authenticates with an email address" do
-			user = create(:user)
-			post :create, { username_or_email: user.email, password: user.password }
-			results = JSON.parse(response.body)
+		describe "DELETE #destroy" do
+			before :each do
+				delete :destroy
+				api_key.reload
+			end
 
-			results['api_key']['access_token'].should =~ /\S{32}/
-			results['api_key']['user_id'].should == user.id
-		end
+			it "clears the access token" do
+				expect(api_key.access_token).to eq('')
+			end
 
-		it "doesn't authenticate with invalid user information" do
-			user = create(:user)
-			post :create, { username_or_email: user.email, password: 'definitelyWrongPassword' }
+			it "expires the api_key" do
+				expect(api_key.expires_at).to be_within(1.second).of(Time.now)
+			end
 
-			response.status.should == 401
-		end
-	end
-
-	describe "DELETE #destroy" do
-		it "destroys the access token upon logout" do
-			user = create(:user)
-			api_key = user.find_api_key
-			delete :destroy, {}, { 'X-ACCESS-TOKEN' => "#{api_key.access_token}" }
-
-			response.status.should == 200
+			it { should respond_with 200 }
 		end
 	end
 
+	describe "without a valid token", noToken: true do
+		before(:each) { clearToken }
+
+		describe "POST #create" do
+			context "valid user information" do
+				it "authenticates with a username" do
+					post :create, username_or_email: user.username, password: user.password
+
+					expect(json['api_key']['access_token']).to match /\S{32}/
+					expect(json['api_key']['user_id']).to eq(user.id)
+				end
+
+				it "authenticates with an email address" do
+					post :create, username_or_email: user.email, password: user.password
+
+					expect(json['api_key']['access_token']).to match /\S{32}/
+					expect(json['api_key']['user_id']).to eq(user.id)
+				end
+			end
+
+			context "invalid user information" do
+				it "doesn't authenticate" do
+					post :create, username_or_email: user.email, password: 'definitelyWrongPassword'
+
+					expect(response.status).to eq(401)
+				end
+			end
+		end
+
+  	describe "DELETE #destroy is unauthorized" do
+  		before(:each) { delete :destroy }
+
+  		it { should respond_with 401 }
+  	end
+	end
 end

@@ -24,6 +24,15 @@ RSpec.configure do |config|
   # adding additional FactoryGirl syntaxes
   config.include FactoryGirl::Syntax::Methods
 
+  # disallow should syntax, force expect
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+
+  # Load request helpers
+  config.include Requests::JsonHelpers, :type => :controller
+  config.include AuthHelpers, :type => :controller
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
