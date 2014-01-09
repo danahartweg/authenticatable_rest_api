@@ -2,6 +2,8 @@
 
 This project was based heavily on the walkthrough written by Eric Berry that you can find [here](http://coderberry.me/blog/2013/07/08/authentication-with-emberjs-part-1/ "Ember.js authentication project"). The additions / changes I've made are addressed below.
 
+You can read more about the project [here] (http://dhartweg.roon.io/api-authentication "API Authentication Article"), as well as my thoughts on [properly testing a JSON API.] (http://dhartweg.roon.io/rspec-testing-for-a-json-api "RSPEC Testing for a JSON API").
+
 Check out the [rails-api](https://github.com/rails-api/rails-api "Rails-API GitHub project") gem as well. It serves as the base.
 
 ## Additions and changes
@@ -19,23 +21,41 @@ Check out the [rails-api](https://github.com/rails-api/rails-api "Rails-API GitH
 ## Configuration and deployment
 
 Make sure all the gems are installed
-    bundle install
+
+```ruby
+bundle install
+```
 
 Run migrations for development and testing
-    rake db:migrate; rake db:migrate RAILS_ENV=test
+
+```ruby
+rake db:migrate; rake db:migrate RAILS_ENV=test
+```
 
 Run tests, if you'd like
-    rspec spec
+
+```ruby
+rspec spec
+```
 
 Populate the database with fake data
-    rake db:populate
+
+```ruby
+rake db:populate
+```
 
 Start the server
-    unicorn
+
+```ruby
+unicorn
+```
 
 Push to Heroku and populate data (after initializing your git repository, and creating your heroku app, of course)
-    git push heroku master
-    heroku run rake db:migrate; rake db:populate
+
+```ruby
+git push heroku master
+heroku run rake db:migrate; rake db:populate
+```
 
 ## Todo
 
